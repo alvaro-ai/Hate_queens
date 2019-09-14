@@ -1,0 +1,20 @@
+from Reinas import*
+
+dimension = int(input("cantidad de reinas ? "))
+Reinas = [0 for i in range(dimension)]
+Reinas = Rrandom_init(Reinas)
+Tablero = Trandom_init(Reinas)
+imprimir_tableroR(Tablero)
+
+vida = 1000
+stop = False
+while vida > 0 :
+    H = calcular_FIT(Reinas)
+    if H == 0 :
+        Stop = True
+        break
+    else:
+        Reinas = MeNos_Jaque(Reinas)
+    vida = vida - 1
+
+imprimir_tableroR(Tablero)
