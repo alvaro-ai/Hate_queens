@@ -1,0 +1,95 @@
+from random import sample
+
+def Rrandom_init(vector):
+    dimension = len(vector)
+    list1 = [0 for i in range(dimension)]
+    for i in range(0, dimension):
+        list1[i] = i
+    vector = sample(list1, dimension)
+    return vector
+
+
+def Trandom_init(reinas):
+    dimension = len(reinas)
+    tablero = [[0] * dimension for i in range(dimension)]
+    for i in range(0, dimension):
+        lugar = reinas[i]
+        tablero[lugar][i] = 1
+    return tablero
+
+def Hboard(vector):
+    vecInicial = vector[:]
+    dimension = len(vecInicial)
+    TempQueen = vecInicial[:]
+    tableroH = [[0] * dimension for i in range(dimension)]
+    for i in range(0, dimension):
+        for j in range(0, dimension):
+            TempQueen[i] = j
+            tableroH[i][j] = calcular_FIT(TempQueen)
+            TempQueen = vecInicial[:]
+    return tableroH
+
+def calcular_FIT(vector):
+    ataque = 0
+    for y in range(0,len(vector)):
+        aux = vector[y]
+        for i in range(y+1,len(vector)):
+            if aux == vector[i] or ( abs(aux -vector[i]) == abs(y-i) ):
+                ataque += 1
+    return ataque
+
+def imprimir_tableroR(board):
+    lenx = len(board)
+    leny = lenx
+    fin = ""
+    valor = ""
+    for i in range(0, lenx):
+        print("|", end="")
+        for j in range(0, leny):
+            if j != leny - 1:
+                fin = " "
+            else:
+                fin = "|"
+            if  board[i][j] == 1:
+                valor = "♛"
+            else:
+                if ((i + j) % 2) == 0:
+                    valor = "▒▒"
+                else:
+                    valor = "  "
+            print(valor, end=fin)
+        print("")
+    print("-----------------------------")
+
+
+def imprimir_tablero(mat):
+    lenx = len(mat)
+    leny = lenx
+    fin = ""
+    valor = ""
+    for i in range(0, lenx):
+        print("!", end="")
+        for j in range(0, leny):
+            if j != leny - 1:
+                fin = ","
+            else:
+                fin = "|"
+            valor = mat[i][j]
+            print(valor, end=fin)
+        print("")
+    print("-----------------------------")
+
+def MeNos_Jaque(vector):
+    tablero = Hboard (vector)
+    dimension = len(vector)
+    for i in range(0, dimension):
+        lugar = vector[i]
+        if (lugar + 1) < dimension:
+            if tablero[lugar][i] > tablero[lugar+1][i]:
+                vector[i] = vector[i] + 1
+                tablero = Hboard (vector)
+        if (lugar - 1) >= 0:
+            if tablero[lugar][i] > tablero[ lugar-1][i]:
+                vector[i] = vector[i] - 1
+                tablero = Hboard (vector)
+    return vector
